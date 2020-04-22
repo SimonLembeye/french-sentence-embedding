@@ -28,11 +28,11 @@ class SiameseTrainer:
         self.train_batch_size = train_batch_size
 
         train_dataset = XNLIDataset(
-            self.train_model.sentence_embedder,
+            self.model.sentence_embedder,
             tsv_file_path="french_XNLI/multinli.train.fr.tsv",
         )
         dev_dataset = XNLIDataset(
-            self.train_model.sentence_embedder,
+            self.model.sentence_embedder,
             tsv_file_path="french_XNLI/xnli.dev.fr.tsv",
         )
         self.train_dataloader = DataLoader(
@@ -103,7 +103,7 @@ class SiameseTrainer:
                 output = self.model(sample_batched)
                 loss = self.loss(output, self.get_targets(sample_batched["label"]))
                 self.optimizer.zero_grad()
-                self.loss.backward()
+                loss.backward()
                 self.optimizer.step()
                 current_loss += loss.detach()
                 train_accuracy += get_acc(
