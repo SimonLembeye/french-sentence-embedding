@@ -15,7 +15,7 @@ class SiameseTrainer:
         model,
         loss,
         optimizer,
-        train_batch_size=10,
+        train_batch_size=8,
         dev_batch_size=4,
         max_epoch=10,
         validation_frequency=1,
@@ -79,6 +79,7 @@ class SiameseTrainer:
 
     def train(self):
         print("==> Start training!")
+        self.validate()
         for epoch in range(1, self.max_epoch + 1):
             self.epoch = epoch
 
@@ -145,7 +146,7 @@ class SiameseTrainer:
                     output, self.get_targets_dev(sample_batched["label"])
                 )
 
-        validation_accuracy /= len(self.dev_dataloader)
+        validation_accuracy /= (len(self.dev_dataloader) * self.dev_batch_size)
         self.writer.add_scalar("Validation/accuracy", validation_accuracy, self.epoch)
 
         print(
