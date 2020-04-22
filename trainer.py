@@ -111,8 +111,8 @@ class SiameseTrainer:
                 )
 
             if step % self.train_log_frequency == 0 and step > 0:
-                current_loss /= self.train_log_frequency
-                train_accuracy /= self.train_log_frequency
+                current_loss /= (self.train_log_frequency * self.train_batch_size)
+                train_accuracy /= (self.train_log_frequency * self.train_batch_size)
 
                 self.writer.add_scalar(
                     "Train/loss", current_loss, self.epoch * len(self.train_dataloader)

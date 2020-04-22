@@ -18,5 +18,5 @@ if __name__ == "__main__":
     loss = nn.CrossEntropyLoss().to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=1e-5)
 
-    trainer = SiameseTrainer(device, model, loss, optimizer)
+    trainer = SiameseTrainer(device, model, loss, optimizer, train_log_frequency=100)
     trainer.train()

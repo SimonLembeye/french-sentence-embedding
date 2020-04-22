@@ -15,9 +15,9 @@ class XNLIDataset(Dataset):
             transform (callable, optional): Optional transform to be applied
                 on a sample.
         """
-        self.data_file = pd.read_csv(tsv_file_path, sep="\t")[
-            ["premise", "hypo", "label"]
-        ]
+        df = pd.read_csv(tsv_file_path, sep="\t")[["premise", "hypo", "label"]]
+        df = df.drop(df[df.isnull().values].index)
+        self.data_file = df
         self.sentence_embedder_model = sentence_embedder_model
 
     def __len__(self):
