@@ -55,7 +55,7 @@ class SiameseTrainer:
         self.writer = SummaryWriter()
         self.save_dir = "saved_models"
 
-    def get_targets(self, labels):
+    def get_targets_dev(self, labels):
         def get_target(label):
             if label == "contradiction":
                 return torch.tensor([0])
