@@ -93,7 +93,6 @@ class SiameseTrainer:
         print(f"=> Train finished | best_mse: {self.best_validation_accuracy}")
 
     def train_epoch(self):
-        self.model.train()
         current_loss = 0
         train_accuracy = 0
         epoch_start = time.time()
@@ -116,22 +115,22 @@ class SiameseTrainer:
                 train_accuracy /= (self.train_log_frequency * self.train_batch_size)
 
                 self.writer.add_scalar(
-                    "Train/loss", current_loss, self.epoch * len(self.train_dataloader)
+                    "Train/loss", current_loss, (self.epoch - 1) * len(self.train_dataloader)
                 )
                 self.writer.add_scalar(
                     "Train/accuracy",
                     train_accuracy,
-                    self.epoch * len(self.train_dataloader),
+                    (self.epoch - 1) * len(self.train_dataloader),
                 )
 
                 print(
-                    f"> epoch: {self.epoch} | step: {step} | loss: {loss} | train_accuracy: {train_accuracy} | epoch_training_time: {time.time() - epoch_start}"
+                    f"> epoch: {self.epoch} | step: {step} | loss: {loss} | train_accuracy: {train_accuracy} | epoch_training_time: {time.time() - epoch_start} s"
                 )
 
                 current_loss = 0
                 train_accuracy = 0
 
-        print(f"=> Train epoch {self.epoch} finished in {time.time() - epoch_start} ms")
+        print(f"=> Train epoch {self.epoch} finished in {time.time() - epoch_start} s")
 
     def validate(self):
         validation_start = time.time()
