@@ -32,8 +32,7 @@ class SiameseTrainer:
             tsv_file_path="french_XNLI/multinli.train.fr.tsv",
         )
         dev_dataset = XNLIDataset(
-            self.model.sentence_embedder,
-            tsv_file_path="french_XNLI/xnli.dev.fr.tsv",
+            self.model.sentence_embedder, tsv_file_path="french_XNLI/xnli.dev.fr.tsv"
         )
         self.train_dataloader = DataLoader(
             train_dataset, batch_size=train_batch_size, shuffle=True, num_workers=0
@@ -111,16 +110,18 @@ class SiameseTrainer:
                 )
 
             if step % self.train_log_frequency == 0 and step > 0:
-                current_loss /= (self.train_log_frequency * self.train_batch_size)
-                train_accuracy /= (self.train_log_frequency * self.train_batch_size)
+                current_loss /= self.train_log_frequency * self.train_batch_size
+                train_accuracy /= self.train_log_frequency * self.train_batch_size
 
                 self.writer.add_scalar(
-                    "Train/loss", current_loss, (self.epoch - 1) * len(self.train_dataloader)
+                    "Train/loss",
+                    current_loss,
+                    (self.epoch - 1) * len(self.train_dataloader) + step,
                 )
                 self.writer.add_scalar(
                     "Train/accuracy",
                     train_accuracy,
-                    (self.epoch - 1) * len(self.train_dataloader),
+                    (self.epoch - 1) * len(self.train_dataloader) + step,
                 )
 
                 print(
@@ -145,7 +146,7 @@ class SiameseTrainer:
                     output, self.get_targets_dev(sample_batched["label"])
                 )
 
-        validation_accuracy /= (len(self.dev_dataloader) * self.dev_batch_size)
+        validation_accuracy /= len(self.dev_dataloader) * self.dev_batch_size
         self.writer.add_scalar("Validation/accuracy", validation_accuracy, self.epoch)
 
         print(
