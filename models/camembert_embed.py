@@ -102,9 +102,11 @@ class CamemBERTEmbed(nn.Module):
         assert len(input_ids) == pad_seq_length
         assert len(input_mask) == pad_seq_length
 
+        device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
         return {
-            "input_ids": torch.tensor([np.asarray(input_ids, dtype=np.int64)]),
-            "input_mask": torch.tensor([np.asarray(input_mask, dtype=np.int64)]),
+            "input_ids": torch.tensor([np.asarray(input_ids, dtype=np.int64)]).to(device),
+            "input_mask": torch.tensor([np.asarray(input_mask, dtype=np.int64)]).to(device),
             "sentence_lengths": np.asarray(sentence_length, dtype=np.int64),
         }
 
