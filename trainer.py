@@ -155,4 +155,5 @@ class SiameseTrainer:
 
         if validation_accuracy > self.best_validation_accuracy:
             torch.save(self.model, f"{self.save_dir}/{self.epoch}_siamese.pth")
+            self.best_validation_accuracy = validation_accuracy
             print("====> New best model saved!")
