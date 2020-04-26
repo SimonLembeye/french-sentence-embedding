@@ -8,13 +8,6 @@ class XNLIDataset(Dataset):
     def __init__(
         self, sentence_embedder_model, tsv_file_path="french_XNLI/multinli.train.fr.tsv"
     ):
-        """
-        Args:
-            csv_file (string): Path to the csv file with annotations.
-            root_dir (string): Directory with all the images.
-            transform (callable, optional): Optional transform to be applied
-                on a sample.
-        """
         df = pd.read_csv(tsv_file_path, sep="\t")[["premise", "hypo", "label"]]
         df = df.drop(df[df.isnull().values].index)
         self.data_file = df
