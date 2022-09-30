@@ -11,7 +11,7 @@ future==0.18.2
 grpcio==1.28.1
 idna==2.9
 jmespath==0.9.5
-joblib==0.14.1
+joblib==1.2.0
 Markdown==3.2.1
 numpy==1.18.3
 pandas==1.0.3
